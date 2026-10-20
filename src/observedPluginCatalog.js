@@ -1,0 +1,249 @@
+// Observed in the authorized pipeline plugin picker on 2026-09-16.
+// This is a catalog snapshot, not evidence that every configuration is implemented.
+export function mergePluginCatalog(observed, plugins = [], composites = []) {
+  const entries = new Map(observed.map((entry) => [entry[0], entry]));
+  for (const plugin of plugins) {
+    if (plugin.status !== "已发布" || ["pl1", "pl2", "pl3", "pl4"].includes(plugin.id)) continue;
+    entries.set(plugin.name, [plugin.name, plugin.category, plugin.source, plugin.description || ""]);
+  }
+  return [...entries.values(), ...composites
+    .filter((item) => item.status === "已发布")
+    .map((item) => [item.name, "复合插件", "自定义", item.description || ""])];
+}
+
+export const observedPluginCatalog = [
+  [
+    "Groovy命令行",
+    "通用",
+    "自定义",
+    ""
+  ],
+  [
+    "上传CodeBeamer报告",
+    "通用",
+    "自定义",
+    ""
+  ],
+  [
+    "[蒲公英制品库]上传制品",
+    "通用",
+    "自定义",
+    "python3开发的脚本，需要安装requests和requests_toolbelt库"
+  ],
+  [
+    "邮件通知",
+    "通用",
+    "系统",
+    "用python调用脚本。发送邮件及其附件。支持Windows和Linux系统。"
+  ],
+  [
+    "下载制品_Jfrog",
+    "通用",
+    "系统",
+    "【python】将制品库制品下载到指定位置\nv2.0.0：支持手动输入下载制品路径"
+  ],
+  [
+    "下载制品",
+    "通用",
+    "系统",
+    "将制品库制品下载至工作空间，支持下载制品库中任意文件或目录。"
+  ],
+  [
+    "下载构建产物",
+    "通用",
+    "系统",
+    "此插件允许您从别的流水线中下载临时或永久保存的文件。\n插件提供了从最后一次成功构建中、从最近一次进行了收集的构建中下载，从本次构建中下载三种策略，下载文件路径支持Ant表达式。\nV1.0.8支持指定流水线的构建次数下载"
+  ],
+  [
+    "收集构建产物",
+    "通用",
+    "系统",
+    "此插件允许您临时或永久保存构建产物，便于其他流水线使用。提供了永久保存、临时保存两种保存模式。临时保存只能在当前构建中使用，永久保存将保存到指定路径，直到被清理。"
+  ],
+  [
+    "上传制品_Jfrog",
+    "通用",
+    "系统",
+    "【python】将流水线制品上传至制品库。支持适配制品中的Changelog.txt与repo_info.txt文件，以展示在制品信息页面。"
+  ],
+  [
+    "上传制品",
+    "通用",
+    "系统",
+    "将流水线制品上传至制品库。支持适配制品中的Changelog.txt与repo_info.txt文件，以展示在制品信息页面。 \n9.1.0：优化分块上传配置及增加重试机制"
+  ],
+  [
+    "清理工作空间",
+    "通用",
+    "系统",
+    "执行清理工作空间操作，删除所有文件和目录（包括空目录）"
+  ],
+  [
+    "企业微信自定义消息通知",
+    "通用",
+    "系统",
+    "企业微信消息通知优化版，标题与内容支持自定义的环境变量，使用方式${GIT_COMMIT_ID}。"
+  ],
+  [
+    "测试报告展示-静态代码扫描",
+    "测试",
+    "系统",
+    "静态代码分析和扫描在现代软件开发中至关重要，原因有几个。首先，静态代码分析是一种有效的预防措施，可以在开发的早期阶段识别潜在的漏洞、安全漏洞和编码错误。这种使用静态代码分析工具的主动方法大大降低了安全漏洞、代码错误、安全弱点和系统故障的可能性，增强了软件的整体稳健性并创建了源代码存储库。目前仅支持polyspace。"
+  ],
+  [
+    "yocto_setup_build",
+    "yocto",
+    "系统",
+    "该插件用于配置yocto工程构建时所使用的配置文件(conf)"
+  ],
+  [
+    "Tessy",
+    "测试",
+    "系统",
+    "Tessy是一个针对嵌入式软件的C/C++代码进行单元、集成测试的工具，它可以自动化地执行测试、评估测试结果并生成测试报告。"
+  ],
+  [
+    "TAE",
+    "测试",
+    "系统",
+    "需要在“资源管理/构建资源”界面的TAE节点上添加环境变量“TAE_PATH”，值为TAE的安装路径。\n运行完成后会生成一个概览报告（TAEReport/TEST-PET-TAE-Report.xml）用于给PET平台解析并展示。修改Report文件名称。"
+  ],
+  [
+    "SimulinkTest-执行测试",
+    "测试",
+    "自定义",
+    "Matlab的simulink test，根据模型的输入输出生成单元测试的Excel模板，填写好Excel后，自动根据excel生成测试用例并执行"
+  ],
+  [
+    "S32DS编译",
+    "通用",
+    "自定义",
+    ""
+  ],
+  [
+    "QAC Test",
+    "测试",
+    "系统",
+    "[python2版本]：这个版本插件支持用户提供QAC工程进行扫描，同样支持使用平台Generate QAC Project 插件生成QAC工程；支持多种报告类型，支持校验用户设定的质量门禁值，若不满足门禁条件时，则停止流水线执行"
+  ],
+  [
+    "Polyspace扫描代码并上传报告",
+    "测试",
+    "系统",
+    "Polyspace是一种针对嵌入式软件C和C++静态代码分析工具，支持检查源代码是否符合编码规则（MISRA C、MISRA C++）、安全规则（CWE、CERT C、CERT C++、ISO/IEC 17961）以及自定义规则，生成测试报告并上传至dashboard。"
+  ],
+  [
+    "Matlab模型生成代码",
+    "构建",
+    "自定义",
+    "用Matlab的EmbedderCoder将模型生成代码"
+  ],
+  [
+    "IAR编译",
+    "通用",
+    "系统",
+    "插件插件支持使用IAR编译器进行编译，支持Windows环境\nV0.0.6：该版本增加了插件功能描述"
+  ],
+  [
+    "HighTec编译",
+    "构建",
+    "系统",
+    "HighTec是一 款C/C++编译器和开发工具，该插件完成Hightec项目的编译。v0.0.9修复了一些插件语法错误"
+  ],
+  [
+    "Generate QAC Project",
+    "构建",
+    "系统",
+    "该插件用于自动生成QAC工程(以同步的方式)，该过程需要依赖编译环境，平台提供C/C++两种工程的default工程配置文件，如果您需要使用更详细的配置，请将该工程的配置文件压缩为ZIP后上传到平台。[python2版本][增加了读取多个CCT配置的功能]"
+  ],
+  [
+    "codeWarrior编译",
+    "构建",
+    "自定义",
+    "使用节点上的CodeWarrior进行软件编译\nV1.0.0：请在使用此插件的节点上配置换变量【CODE_WARRIOR_BIN_DIR】，值为CodeWarrior软件的bin目录"
+  ],
+  [
+    "CCS编译",
+    "构建",
+    "自定义",
+    "Code Composer Studio 是适用于 TI 微控制器和处理器的集成开发环境 (IDE)。它包含一整套丰富的工具，用于构建、调试、分析和优化嵌入式应用。Code Composer Studio 可在 Windows、Linux和 macOS平台上使用。根据CCS版本，输入工程目录进行编译。"
+  ],
+  [
+    "CANoe自动测试",
+    "测试",
+    "自定义",
+    ""
+  ],
+  [
+    "测试报告解析",
+    "测试",
+    "系统",
+    "此插件提供单元测试类型的报告可视化功能，支持Junit，googleTest，CTest、Tessy等十多种类型工具，使用后对应的报告将在构建记录-测试报告页面中展示\nV0.0.12 版本仅更新了插件描述"
+  ],
+  [
+    "覆盖率报告",
+    "测试",
+    "系统",
+    "本插件提供覆盖度报告可视化展示功能，目前支持的覆盖度工具有Curbertura、JaCoCo，暂不支持其他；\n版本描述：\nV0.0.7版本新增了对JaCoCo的支持\nV1.0.0增加了对jacooc执行文件存在性检测"
+  ],
+  [
+    "Tasking编译",
+    "构建",
+    "系统",
+    "用命令行编译Tasking项目，需输入Tasking工程路径及配置项。\n1.0.0:可指定执行命令"
+  ],
+  [
+    "Shell命令行",
+    "通用",
+    "自定义",
+    "执行自定义的Shell命令行"
+  ],
+  [
+    "GreenHills编译",
+    "构建",
+    "系统",
+    "插件支持使用Greenhills编译器进行编译，支持Windows环境\nV0.0.4：该版本优化了编译结果同步的问题\nV0.0.5：该版本增加了插件功能描述"
+  ],
+  [
+    "Bat命令行",
+    "通用",
+    "自定义",
+    ""
+  ],
+  [
+    "执行自定义脚本",
+    "通用",
+    "系统",
+    "该插件用于执行用户指定的脚本，支持bat, sh, python, groovy等常用脚本"
+  ],
+  [
+    "SVN文件上传",
+    "通用",
+    "系统",
+    "支持上传指定文件到SVN仓库"
+  ],
+  [
+    "[yocto]生成SourceRevision",
+    "yocto",
+    "系统",
+    ""
+  ],
+  [
+    "[yocto]收集SourceRevision",
+    "yocto",
+    "系统",
+    ""
+  ],
+  [
+    "[yocto]上传SourceRevision",
+    "yocto",
+    "系统",
+    ""
+  ],
+  [
+    "企业微信通知",
+    "通用",
+    "系统",
+    "发送企业微信通知。使用前需要IT开通权限，可联系PET负责人开通"
+  ]
+];
